@@ -27,16 +27,16 @@ products = [
 
 def to_usd(my_price):
     return f"${my_price:,.2f}" #> $12,000.71
-   
+  
+subtotal_price = 0 
+UPCs = []
+
 while True:
     UPC = input("Please input the product number: ")
     if UPC == "Done":
         break
     else:
-        matching_products = [p for p in products if str(p["id"]) == str(UPC)]
-        matching_product = matching_products[0]
-    
-
+        UPCs.append(UPC)
 
 print("--------------------------------")
 print("        Mr Mango Grocery        ")
@@ -51,5 +51,19 @@ print("Checkout at:", now.strftime("%m/%d/%Y  %I:%M%p"))
 print("--------------------------------")
 
 print("Purchased Items:")
-print("     " + matching_product["name"] + " " + str(matching_product["price"]))
 
+for UPC in UPCs:
+    matching_products = [p for p in products if str(p["id"]) == str(UPC)]
+    matching_product = matching_products[0]
+    subtotal_price = subtotal_price + matching_product["price"]
+    print("  " + matching_product["name"] + " " + str(matching_product["price"]))
+
+print("     " + "Subtotal: " + str(subtotal_price))
+
+tax = subtotal_price * .005
+
+print("     " + "Tax: " + str(tax))
+
+total_price = subtotal_price + tax
+
+print("     " + "Total: " + str(total_price))
