@@ -28,7 +28,7 @@ products = [
 def to_usd(my_price):
     return f"${my_price:,.2f}" #> $12,000.71
   
-subtotal_price = 0 
+subtotal_price = 0
 UPCs = []
 
 while True:
@@ -38,32 +38,45 @@ while True:
     else:
         UPCs.append(UPC)
 
-print("--------------------------------")
-print("        Mr Mango Grocery        ")
-print("        59 Lafayette Ave")
-print("    Brooklyn, New York 11217")
-print("         (929) 250-2000")
-print("           OPEN 24 HRS")
-print("--------------------------------")
+
+
+print("------------------------------------------")
+print("             Mr Mango Grocery             ")
+print("             59 Lafayette Ave             ")
+print("         Brooklyn, New York 11217         ")
+print("              (929) 250-2000              ")
+print("                OPEN 24 HRS               ")
+print("------------------------------------------")
 
 now = datetime.datetime.now()
-print("Checkout at:", now.strftime("%m/%d/%Y  %I:%M%p"))
-print("--------------------------------")
+print("   Checked out at:", now.strftime("%m/%d/%Y  %I:%M%p"))
+print("------------------------------------------")
 
 print("Purchased Items:")
+print(" ")
 
 for UPC in UPCs:
     matching_products = [p for p in products if str(p["id"]) == str(UPC)]
     matching_product = matching_products[0]
     subtotal_price = subtotal_price + matching_product["price"]
-    print("  " + matching_product["name"] + " " + str(matching_product["price"]))
+    matching_product_price = to_usd(matching_product["price"])
+    print("  " + matching_product["name"] + " " + str(matching_product_price))
 
-print("     " + "Subtotal: " + str(subtotal_price))
-
-tax = subtotal_price * .005
-
-print("     " + "Tax: " + str(tax))
-
+tax = subtotal_price * .0875
 total_price = subtotal_price + tax
 
-print("     " + "Total: " + str(total_price))
+subtotal_price = to_usd(subtotal_price)
+tax = to_usd(tax)
+total_price = to_usd(total_price)
+
+UPC_total = len(UPCs)
+
+print(" ")
+print("     " + "Subtotal: " + "  " + str(subtotal_price))
+print("     " + "Tax: " + "        " + str(tax))
+print("     " + "Total: " + "     " + str(total_price))
+print("     " + "Items Sold: " + "     " + str(UPC_total))
+print(" ")
+print("------------------------------------------")
+print("          THANKS, SEE YOU AGAIN!          ")
+print("------------------------------------------")
