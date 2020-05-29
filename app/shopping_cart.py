@@ -51,5 +51,5 @@ print("Checkout at:", now.strftime("%m/%d/%Y  %I:%M%p"))
 print("--------------------------------")
 
 print("Purchased Items:")
-print("     " + matching_product["name"] + matching_product["name"])
+print("     " + matching_product["name"] + " " + str(matching_product["price"]))
 
