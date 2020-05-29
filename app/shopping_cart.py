@@ -28,6 +28,11 @@ products = [
 def to_usd(my_price):
     return f"${my_price:,.2f}" #> $12,000.71
 
+
+
+UPC = input("Please input the product number: ")
+UPC = float(UPC)
+
 print("--------------------------------")
 print("        Mr Mango Grocery        ")
 print("        59 Lafayette Ave")
