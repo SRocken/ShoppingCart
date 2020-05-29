@@ -1,5 +1,7 @@
 # shopping_cart.py
 
+import datetime
+
 products = [
     {"id":1, "name": "Chocolate Sandwich Cookies", "department": "snacks", "aisle": "cookies cakes", "price": 3.50},
     {"id":2, "name": "All-Seasons Salt", "department": "pantry", "aisle": "spices seasonings", "price": 4.99},
@@ -26,6 +28,16 @@ products = [
 def to_usd(my_price):
     return f"${my_price:,.2f}" #> $12,000.71
 
-# TODO: write some Python code here to produce the desired output
+print("--------------------------------")
+print("        Mr Mango Grocery        ")
+print("        59 Lafayette Ave")
+print("    Brooklyn, New York 11217")
+print("         (929) 250-2000")
+print("           OPEN 24 HRS")
+print("--------------------------------")
 
-print(products)
+now = datetime.datetime.now()
+print("Checkout at:", now.strftime("%m/%d/%Y  %I:%M%p"))
+print("--------------------------------")
+print("Purchased Items:")
+
