@@ -81,26 +81,24 @@ print("------------------------------------------")
 print("          THANKS, SEE YOU AGAIN!          ")
 print("------------------------------------------")
 print(" ")
-print(" ")
-print(" ")
 
-# TODO: FIX THIS
 # Send receipt to an email
 load_dotenv()
 
 # Building the Email
-email_consent = input("Please ask the customer if they would like their receipt emailed (Y/N): ")
-print("------------------------------------------")
-print(" ")
-print(" ")
-print(" ")
+email_consent = input("Does the customer want their receipt emailed (Y/N): ")
+
 if email_consent == "Y" or "y":
+    customer_email = input("Customer's email address: ")
+    print(" ")
+    print("------------------------------------------")
+    print(" ")
     subject = "Your Receipt from Mr. Mango"
     html_content = "Hello World"
 
     message = Mail(
         from_email=os.environ.get("my_email"),
-        to_emails="scott.rockensies@gmail.com", #TODO: Make this an input
+        to_emails=customer_email,
         subject=subject,
         html_content=html_content)
 
