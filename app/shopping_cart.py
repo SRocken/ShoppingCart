@@ -34,8 +34,8 @@ subtotal_price = 0
 UPCs = []
 
 while True:
-    UPC = input("Please input the product number: ")
-    if UPC == "Done" or UPC == "done":
+    UPC = input("Please input the product number (when finished type Done): ")
+    if UPC == "Done" or UPC == "done" or UPC == "d" or UPC == "D":
         break
     else:
         UPCs.append(UPC)
