@@ -104,6 +104,18 @@ if email_consent == "Y" or "y":
 
     # Building the ability to send the email
     sendgrid_client = SendGridAPIClient(os.environ.get("sendgrid_api_key"))
+    message.template_id = os.environ.get("sendgrid_template_id")
+    message.dynamic_template_data = {
+        "amount_paid": total_price,
+        "transaction_date": now.strftime("%m/%d/%Y"),
+        "products":[
+            {"id":1, "name": "Product 1"},
+            {"id":2, "name": "Product 2"},
+            {"id":3, "name": "Product 3"},
+            {"id":2, "name": "Product 2"},
+            {"id":1, "name": "Product 1"}
+        ]
+    }
 
     try:
         response = sendgrid_client.send(message)
