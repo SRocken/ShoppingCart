@@ -1,3 +1,6 @@
+# Email Envirnoment Variables
+.env
+
 #Google API Auth
 google_api_credentials.json
 

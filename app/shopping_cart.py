@@ -1,18 +1,18 @@
 # shopping_cart.py
-
-
 import datetime
 
-# Google Sheets Integration (lines 7-26)
-import os
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 
+import os
+from dotenv import load_dotenv
+from sendgrid import SendGridAPIClient
+from sendgrid.helpers.mail import Mail
 
-# use creds to create a client to interact with the Google Drive API
+
 AUTH_SCOPE = [
-    "https://www.googleapis.com/auth/spreadsheets", #> Allows read/write access to the user's sheets and their properties.
-    "https://www.googleapis.com/auth/drive.file" #> Per-file access to files created or opened by the app.
+    "https://www.googleapis.com/auth/spreadsheets", 
+    "https://www.googleapis.com/auth/drive.file" 
 ]
 creds = ServiceAccountCredentials.from_json_keyfile_name('google_api_credentials.json', AUTH_SCOPE)
 client = gspread.authorize(creds)
@@ -28,7 +28,7 @@ sheet = doc.worksheet(SHEET_NAME)
 products = sheet.get_all_records()
 
 def to_usd(my_price):
-    return f"${my_price:,.2f}" #> $12,000.71
+    return f"${my_price:,.2f}"
   
 subtotal_price = 0
 UPCs = []
@@ -39,8 +39,6 @@ while True:
         break
     else:
         UPCs.append(UPC)
-
-
 
 print("------------------------------------------")
 print("             Mr Mango Grocery             ")
@@ -53,7 +51,6 @@ print("------------------------------------------")
 now = datetime.datetime.now()
 print("   Checked out at:", now.strftime("%m/%d/%Y  %I:%M%p"))
 print("------------------------------------------")
-
 print("Purchased Items:")
 print(" ")
 
@@ -75,15 +72,47 @@ total_price = to_usd(total_price)
 UPC_total = len(UPCs)
 
 print(" ")
-print("     " + "Subtotal: " + "  " + str(subtotal_price))
-print("     " + "Tax: " + "        " + str(tax))
-print("     " + "Total: " + "     " + str(total_price))
-print("     " + "Items Sold: " + "     " + str(UPC_total))
+print("     " + "Subtotal: " + "    " + str(subtotal_price))
+print("     " + "Tax: " + "         " + str(tax))
+print("     " + "Total: " + "       " + str(total_price))
+print("     " + "Items Sold: " + "  " + str(UPC_total))
 print(" ")
 print("------------------------------------------")
 print("          THANKS, SEE YOU AGAIN!          ")
 print("------------------------------------------")
+print(" ")
+print(" ")
+print(" ")
 
-# TODO: add product count and have multiple products in same line with price reflecting that
-# TODO: connect to google sheets
-# TODO: connect to email
+# TODO: FIX THIS
+# Send receipt to an email
+load_dotenv()
+
+# Building the Email
+email_consent = input("Please ask the customer if they would like their receipt emailed (Y/N): ")
+print("------------------------------------------")
+print(" ")
+print(" ")
+print(" ")
+if email_consent == "Y" or "y":
+    subject = "Your Receipt from Mr. Mango"
+    html_content = "Hello World"
+
+    message = Mail(
+        from_email=os.environ.get("my_email"),
+        to_emails="scott.rockensies@gmail.com", #TODO: Make this an input
+        subject=subject,
+        html_content=html_content)
+
+    # Building the ability to send the email
+    sendgrid_client = SendGridAPIClient(os.environ.get("sendgrid_api_key"))
+
+    try:
+        response = sendgrid_client.send(message)
+        print(response.status_code) #> if 202 prints then SUCCESS
+        print(response.body)
+        print(response.headers)
+    except Exception as e:
+        print(e)
+else:
+    pass
