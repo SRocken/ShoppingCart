@@ -35,7 +35,7 @@ UPCs = []
 
 while True:
     UPC = input("Please input the product number: ")
-    if UPC == "Done":
+    if UPC == "Done" or UPC == "done":
         break
     else:
         UPCs.append(UPC)
@@ -93,9 +93,8 @@ for UPC in UPCs:
     matching_products = [p for p in products if str(p["id"]) == str(UPC)]
     matching_product = matching_products[0]
     purchased_dict = matching_product
-    print(purchased_dict)
 
-if email_consent == "Y" or "y" or "Yes" or "yes" or "YES":
+if email_consent == "Y" or email_consent == "Yes" or email_consent == "YES" or email_consent == "y" or email_consent == "yes":
     customer_email = input("Customer's email address: ")
     print(" ")
     print("------------------------------------------")
