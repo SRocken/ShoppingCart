@@ -14,8 +14,15 @@ The store owner also says it would be "nice to have" a feature which prompts the
 
 # Setup & Implementation
 
-Add something about implemetnation this
+When running this application, be sure to install the following modules into your python environment in order to properly use the Google Sheets API and the Sendgrid email generator:
+
+pip install gspread oauth2client
+pip install sendgrid==6.0.5
 
 # Running the Application
 
-Add something about using this
+The system will prompt the user to enter the product ID numbers for the items the customer is purchasing one-by-one.
+
+If the clerk enters the wrong UPC, the system will prompt the clerk to re-enter the appropriate number.
+
+At the end of the transaction, a receipt will display on screen for the clerk and customer's review, at which point the clerk will be prompted to ask the customer if they would like an receipt emailed to them. If the customer does, the clerk will be prompted to enter their email address.
