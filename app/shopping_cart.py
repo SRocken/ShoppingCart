@@ -29,16 +29,18 @@ products = sheet.get_all_records()
 
 def to_usd(my_price):
     return f"${my_price:,.2f}"
-  
-subtotal_price = 0
-UPCs = []
 
+# Product look-up loop with friendly error message and ability to close out
+loaded_UPCs = [u["id"] for u in products]
+UPCs = []
 while True:
     UPC = input("Please input the product number (when finished type Done): ")
     if UPC == "Done" or UPC == "done" or UPC == "d" or UPC == "D":
         break
-    else:
-        UPCs.append(UPC)
+    elif any(item == int(UPC) for item in loaded_UPCs):
+        UPCs.append(UPC)          
+    elif any(item != int(UPC) for item in loaded_UPCs):
+        print("Sorry, the UPC you entered does not match a product currently in the system. Please try again.")        
 
 print("------------------------------------------")
 print("             Mr Mango Grocery             ")
@@ -54,6 +56,7 @@ print("------------------------------------------")
 print("Purchased Items:")
 print(" ")
 
+subtotal_price = 0
 for UPC in UPCs:
     matching_products = [p for p in products if str(p["id"]) == str(UPC)]
     matching_product = matching_products[0]
@@ -88,11 +91,10 @@ load_dotenv()
 # Building the Email
 email_consent = input("Does the customer want their receipt emailed (Y/N): ")
 
-purchased_dict = {}
+purchased_dict = []
 for UPC in UPCs:
     matching_products = [p for p in products if str(p["id"]) == str(UPC)]
-    matching_product = matching_products[0]
-    purchased_dict = matching_product
+    purchased_dict.append(matching_products)
 
 if email_consent == "Y" or email_consent == "Yes" or email_consent == "YES" or email_consent == "y" or email_consent == "yes":
     customer_email = input("Customer's email address: ")
@@ -109,9 +111,7 @@ if email_consent == "Y" or email_consent == "Yes" or email_consent == "YES" or e
     message.dynamic_template_data = {
         "amount_paid": total_price,
         "transaction_date": now.strftime("%m/%d/%Y"),
-        "products":[
-            purchased_dict #TODO: Only printing the last result inputted
-            ]
+        "products": purchased_dict
     }
 
     try:
